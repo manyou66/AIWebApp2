@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 type Detection = {
     class: string;
     confidence: number;
@@ -11,6 +11,9 @@ type Detection = {
     };
 };
 export function DetectionPanel() {
+    const [previewUrl, setPreviewUrl] =
+        useState<string | null>(null);
+    const [hasAnalyzed, setHasAnalyzed] = useState(false);
     const [
         selectedFile,
         setSelectedFile
@@ -31,6 +34,24 @@ export function DetectionPanel() {
         error,
         setError
     ] = useState("");
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreviewUrl(null);
+            return;
+        }
+
+        const url =
+            URL.createObjectURL(
+                selectedFile
+            );
+
+        setPreviewUrl(url);
+
+        return () => {
+            URL.revokeObjectURL(url);
+        };
+    }, [selectedFile]);
+
     function handleFileChange(
         event:
             React.ChangeEvent<HTMLInputElement>
@@ -39,6 +60,10 @@ export function DetectionPanel() {
             event.target.files?.[0];
         if (file) {
             setSelectedFile(file);
+            // NEW: clear previous result
+            setDetections([]);
+            setHasAnalyzed(false);
+            setError("");
         }
     }
     async function detectObjects() {
@@ -84,24 +109,55 @@ export function DetectionPanel() {
         }
     }
     return (
-        <section>
-            <h2>
-                Object Detection
-            </h2>
-            <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-            />
-            {selectedFile && (
-                <p>
-                    Selected:
-                    {selectedFile.name}
+        <section className="ux-card ux-detection">
+            <div className="ux-section-heading">
+                <p className="ux-eyebrow">
+                    AI IMAGE ANALYSIS
                 </p>
+
+                <h2 >
+                    Object Detection
+                </h2>
+                <p className="ux-muted">
+                    Upload an image to identify
+                    objects using the YOLO model.
+                </p>
+            </div>
+            <div className="ux-upload">
+                <label className="ux-file-button">
+                    <input
+                        className="ux-file-input"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        disabled={loading}
+                    />
+
+                    <span>Choose Image</span>
+                </label>
+
+                <span className="ux-file-name">
+                    {selectedFile
+                        ? selectedFile.name
+                        : "No image selected"}
+                </span>
+            </div>
+            {previewUrl && (
+                <div className="ux-preview">
+                    {/* eslint-disable-next-line
+        @next/next/no-img-element */}
+                    <img
+                        src={previewUrl}
+                        alt="Selected image preview"
+                    />
+                </div>
             )}
+
             <button
+                type="button"
+                className="ux-button"
                 onClick={detectObjects}
-                disabled={loading}
+                disabled={!selectedFile || loading}
             >
                 {
                     loading
@@ -110,25 +166,62 @@ export function DetectionPanel() {
                 }
             </button>
             {error && (
-                <p>
+                <div
+                    className="ux-error"
+                    role="alert"
+                >
                     {error}
-                </p>
+                </div>
             )}
-            <h3>
-                Detection Result
-            </h3>
-            {detections.map(
-                (item, index) => (
-                    <div key={index}>
-                        <strong>
-                            {item.class}
-                        </strong>
-                        <p>
-                            Confidence: {item.confidence}%
-                        </p>
-                    </div>
-                )
-            )}
+            {!loading &&
+                !error &&
+                detections.length === 0 && (
+                    <p className="ux-muted">
+                        Detection results
+                        will appear here.
+                    </p>
+                )}
+
+            <h3>Detection Result</h3>
+
+            <div className="ux-results">
+                {detections.map(
+                    (item, index) => (
+                        <article
+                            className="ux-result-item"
+                            key={index}
+                        >
+                            <strong>
+                                {item.class}
+                            </strong>
+
+                            <p>
+                                Confidence:
+                                {" "}
+                                {item.confidence}%
+                            </p>
+
+                            <div
+                                className="ux-confidence-track"
+                            >
+                                <div
+                                    className="ux-confidence-fill"
+                                    style={{
+                                        width: `${Math.max(
+                                            0,
+                                            Math.min(
+                                                100,
+                                                item.confidence
+                                            )
+                                        )
+                                            }%`,
+                                    }}
+                                />
+                            </div>
+                        </article>
+                    )
+                )}
+            </div>
         </section>
     );
 } 

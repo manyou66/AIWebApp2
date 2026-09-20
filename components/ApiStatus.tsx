@@ -34,23 +34,44 @@ export function ApiStatus() {
         }
     }
     return (
-        <section>
-            <h2>
-                Backend API
-            </h2>
+        <section className="ux-card ux-status">
+            <div className="ux-section-heading">
+                <p className="ux-eyebrow">
+                    SYSTEM STATUS
+                </p>
+
+                <h2>Backend API</h2>
+
+                <p className="ux-muted">
+                    Check the connection to Flask.
+                </p>
+            </div>
+
             <p>
-                API Status: {status}
+                API Status:
+                {" "}
+                <strong>{status}</strong>
             </p>
+
             <button
+                type="button"
+                className="ux-button"
                 onClick={checkApi}
                 disabled={loading}
             >
-                {
-                    loading
-                        ? "Checking..."
-                        : "Check API"
-                }
+                {loading
+                    ? "Checking..."
+                    : "Check API"}
             </button>
+
+            {error && (
+                <div
+                    className="ux-error"
+                    role="alert"
+                >
+                    {error}
+                </div>
+            )}
         </section>
     );
 }

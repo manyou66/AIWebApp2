@@ -4,22 +4,24 @@ import { DetectionPanel } from "@/components/DetectionPanel";
 import { ApiStatus } from "@/components/ApiStatus";
 export default function Home() {
   return (
-    <main>
+    <main className="ux-shell">
       <AppHeader />
-      <br></br>
-      <FeatureCard
-        title="Object Detection"
-        description="ตรวจจับวัตถุจากรูปภาพด้วย AI"
-      />
-      <br></br>
-      <FeatureCard
-        title="AI Chat"
-        description="สนทนากับ Generative AI"
-      />
-      <br></br>
-      <DetectionPanel/>
-      <br></br>
-      <ApiStatus/>
+
+      <div className="ux-grid">
+        <FeatureCard
+          title="Object Detection"
+          description="ตรวจจับวัตถุจากรูปภาพด้วย AI"
+        />
+
+        <FeatureCard
+          title="AI Chat"
+          description="สนทนากับ Generative AI"
+        />
+      </div>
+
+      <DetectionPanel />
+
+      <ApiStatus />
     </main>
   );
 }
