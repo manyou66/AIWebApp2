@@ -347,3 +347,144 @@ body {
     padding: 20px;
   }
 }
+/* WEEK 6: append to existing app/globals.css */
+ 
+.ux-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  margin-top: 12px;
+}
+ 
+.ux-link-button:hover {
+  color: #ffffff;
+}
+ 
+.ux-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+ 
+.ux-form label {
+  font-weight: 700;
+}
+ 
+.ux-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: white;
+  color: #0f172a;
+  font: inherit;
+}
+ 
+.ux-input:focus {
+  outline: 3px solid #bfdbfe;
+  border-color: #2563eb;
+}
+ 
+.ux-textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+ 
+.ux-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+ 
+.ux-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  background: #2563eb;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+ 
+.ux-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+ 
+.ux-button-light {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+ 
+.ux-button-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+ 
+.ux-prompt-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+ 
+.ux-prompt-item {
+  padding: 18px;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+ 
+.ux-prompt-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+ 
+.ux-prompt-heading h3 {
+  margin: 0;
+}
+ 
+.ux-tag {
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+ 
+.ux-prompt-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+  color: #475569;
+}
+ 
+.ux-error {
+  color: #b91c1c;
+  font-weight: 700;
+}
+ 
+.ux-success {
+  color: #15803d;
+  font-weight: 700;
+}
+ 
+@media (max-width: 640px) {
+  .ux-actions {
+    flex-direction: column;
+  }
+ 
+  .ux-actions .ux-button {
+    width: 100%;
+  }
+}
